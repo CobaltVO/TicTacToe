@@ -83,44 +83,40 @@ class TicTacToe {
                         (map[1][0] == mark) && (map[1][2] == mark);
 
             case 0: // 3 pos to ensure
-                if ((map[0][1] == mark) && (map[0][2] == mark)) return true;
-                else if ((map[1][0] == mark) && (map[2][0] == mark)) return true;
-                else return ((map[1][1] == mark) && (map[2][2] == mark));
+                return (map[0][1] == mark) && (map[0][2] == mark) ||
+                        (map[1][0] == mark) && (map[2][0] == mark) ||
+                        (map[1][1] == mark) && (map[2][2] == mark);
 
             case 2: // 3 pos to ensure
-                if ((map[0][0] == mark) && (map[0][1] == mark)) return true;
-                else if ((map[1][2] == mark) && (map[2][2] == mark)) return true;
-                else return ((map[1][1] == mark) && (map[2][0] == mark));
+                return (map[0][0] == mark) && (map[0][1] == mark) ||
+                        (map[1][2] == mark) && (map[2][2] == mark) ||
+                        (map[1][1] == mark) && (map[2][0] == mark);
 
             case 6: // 3 pos to ensure
-                if ((map[0][0] == mark) && (map[1][0] == mark)) return true;
-                else if ((map[2][1] == mark) && (map[2][2] == mark)) return true;
-                else return ((map[1][1] == mark) && (map[0][2] == mark));
+                return (map[0][0] == mark) && (map[1][0] == mark) ||
+                        (map[2][1] == mark) && (map[2][2] == mark) ||
+                        (map[1][1] == mark) && (map[0][2] == mark);
 
             case 8: // 3 pos to ensure
-                if ((map[0][2] == mark) && (map[1][2] == mark)) return true;
-                else if ((map[2][0] == mark) && (map[2][1] == mark)) return true;
-                else return ((map[1][1] == mark) && (map[0][0] == mark));
+                return (map[0][2] == mark) && (map[1][2] == mark) ||
+                        (map[2][0] == mark) && (map[2][1] == mark) ||
+                        (map[1][1] == mark) && (map[0][0] == mark);
 
             case 1: // 2 pos to ensure
-                if ((map[0][0] == mark) && (map[0][2] == mark)) return true;
-                else return ((map[1][1] == mark) && (map[2][1] == mark));
+                return (map[0][0] == mark) && (map[0][2] == mark) || ((map[1][1] == mark) && (map[2][1] == mark));
             case 3: // 2 pos to ensure
-                if ((map[0][0] == mark) && (map[2][0] == mark)) return true;
-                else return ((map[1][1] == mark) && (map[1][2] == mark));
+                return (map[0][0] == mark) && (map[2][0] == mark) || ((map[1][1] == mark) && (map[1][2] == mark));
             case 5: // 2 pos to ensure
-                if ((map[0][2] == mark) && (map[2][2] == mark)) return true;
-                else return ((map[1][0] == mark) && (map[1][1] == mark));
+                return (map[0][2] == mark) && (map[2][2] == mark) || ((map[1][0] == mark) && (map[1][1] == mark));
             case 7: // 2 pos to ensure
-                if ((map[0][1] == mark) && (map[1][1] == mark)) return true;
-                else return ((map[2][0] == mark) && (map[2][2] == mark));
+                return (map[0][1] == mark) && (map[1][1] == mark) || ((map[2][0] == mark) && (map[2][2] == mark));
             default:
                 return false;
         }
     }
 
     private void takeData() {
-        System.out.println("Сейчас ходит " + currentPlayer);
+        System.out.println("Player " + currentPlayer + " goes");
         Scanner in = new Scanner(System.in);
         String str;
         int pos;
