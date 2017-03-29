@@ -1,17 +1,17 @@
-package ru.cobalt;
+package cobalt;
 
+import java.util.Random;
 import java.util.Scanner;
 
 class TicTacToe {
     private char map[][] = new char[3][3]; // for storing marks
     private int count = 0;
     private char currentPlayer = 'X';
+    private int pos = 0;
 
     TicTacToe() {
         clearMap();
         startGameMessage();
-        showMap();
-        takeData();
     }
 
     private void swapCurrentPlayer() {
@@ -46,7 +46,48 @@ class TicTacToe {
         System.out.println("Type position, e.g.: 3");
     }
 
-    private void setMark(int pos) {
+    private boolean checkIfWon() {
+        switch (pos) {
+            case 4: // 4 pos to ensure
+                return (map[0][0] == currentPlayer) && (map[2][2] == currentPlayer) ||
+                        (map[0][1] == currentPlayer) && (map[2][1] == currentPlayer) ||
+                        (map[0][2] == currentPlayer) && (map[2][0] == currentPlayer) ||
+                        (map[1][0] == currentPlayer) && (map[1][2] == currentPlayer);
+
+            case 0: // 3 pos to ensure
+                return (map[0][1] == currentPlayer) && (map[0][2] == currentPlayer) ||
+                        (map[1][0] == currentPlayer) && (map[2][0] == currentPlayer) ||
+                        (map[1][1] == currentPlayer) && (map[2][2] == currentPlayer);
+
+            case 2: // 3 pos to ensure
+                return (map[0][0] == currentPlayer) && (map[0][1] == currentPlayer) ||
+                        (map[1][2] == currentPlayer) && (map[2][2] == currentPlayer) ||
+                        (map[1][1] == currentPlayer) && (map[2][0] == currentPlayer);
+
+            case 6: // 3 pos to ensure
+                return (map[0][0] == currentPlayer) && (map[1][0] == currentPlayer) ||
+                        (map[2][1] == currentPlayer) && (map[2][2] == currentPlayer) ||
+                        (map[1][1] == currentPlayer) && (map[0][2] == currentPlayer);
+
+            case 8: // 3 pos to ensure
+                return (map[0][2] == currentPlayer) && (map[1][2] == currentPlayer) ||
+                        (map[2][0] == currentPlayer) && (map[2][1] == currentPlayer) ||
+                        (map[1][1] == currentPlayer) && (map[0][0] == currentPlayer);
+
+            case 1: // 2 pos to ensure
+                return (map[0][0] == currentPlayer) && (map[0][2] == currentPlayer) || ((map[1][1] == currentPlayer) && (map[2][1] == currentPlayer));
+            case 3: // 2 pos to ensure
+                return (map[0][0] == currentPlayer) && (map[2][0] == currentPlayer) || ((map[1][1] == currentPlayer) && (map[1][2] == currentPlayer));
+            case 5: // 2 pos to ensure
+                return (map[0][2] == currentPlayer) && (map[2][2] == currentPlayer) || ((map[1][0] == currentPlayer) && (map[1][1] == currentPlayer));
+            case 7: // 2 pos to ensure
+                return (map[0][1] == currentPlayer) && (map[1][1] == currentPlayer) || ((map[2][0] == currentPlayer) && (map[2][2] == currentPlayer));
+            default:
+                return false;
+        }
+    }
+
+    private void setUserMark() {
         pos -= 1; // 0, 1, 2, 3, 4, 5, 6, 7, 8
         int i = pos / 3;
         int j = pos % 3;
@@ -54,87 +95,103 @@ class TicTacToe {
             map[i][j] = currentPlayer;
         } else {
             System.out.println("This place has been already taken\nChoose another one");
-            takeData();
-            return;
-        }
-        if (count > 3) {
-            if (didPlayerWin(currentPlayer, pos)) {
-                System.out.println("Player " + currentPlayer + " won!!!");
-                showMap();
-                return;
-            }
-        }
-
-        showMap();
-        if (count < 8) {
-            count++;
-            swapCurrentPlayer();
-            takeData();
-        } else System.out.println("Draw");
-
-    }
-
-    private boolean didPlayerWin(char mark, int pos) {
-        switch (pos) {
-            case 4: // 4 pos to ensure
-                return (map[0][0] == mark) && (map[2][2] == mark) ||
-                        (map[0][1] == mark) && (map[2][1] == mark) ||
-                        (map[0][2] == mark) && (map[2][0] == mark) ||
-                        (map[1][0] == mark) && (map[1][2] == mark);
-
-            case 0: // 3 pos to ensure
-                return (map[0][1] == mark) && (map[0][2] == mark) ||
-                        (map[1][0] == mark) && (map[2][0] == mark) ||
-                        (map[1][1] == mark) && (map[2][2] == mark);
-
-            case 2: // 3 pos to ensure
-                return (map[0][0] == mark) && (map[0][1] == mark) ||
-                        (map[1][2] == mark) && (map[2][2] == mark) ||
-                        (map[1][1] == mark) && (map[2][0] == mark);
-
-            case 6: // 3 pos to ensure
-                return (map[0][0] == mark) && (map[1][0] == mark) ||
-                        (map[2][1] == mark) && (map[2][2] == mark) ||
-                        (map[1][1] == mark) && (map[0][2] == mark);
-
-            case 8: // 3 pos to ensure
-                return (map[0][2] == mark) && (map[1][2] == mark) ||
-                        (map[2][0] == mark) && (map[2][1] == mark) ||
-                        (map[1][1] == mark) && (map[0][0] == mark);
-
-            case 1: // 2 pos to ensure
-                return (map[0][0] == mark) && (map[0][2] == mark) || ((map[1][1] == mark) && (map[2][1] == mark));
-            case 3: // 2 pos to ensure
-                return (map[0][0] == mark) && (map[2][0] == mark) || ((map[1][1] == mark) && (map[1][2] == mark));
-            case 5: // 2 pos to ensure
-                return (map[0][2] == mark) && (map[2][2] == mark) || ((map[1][0] == mark) && (map[1][1] == mark));
-            case 7: // 2 pos to ensure
-                return (map[0][1] == mark) && (map[1][1] == mark) || ((map[2][0] == mark) && (map[2][2] == mark));
-            default:
-                return false;
+            takePos();
         }
     }
 
-    private void takeData() {
-        System.out.println("Player " + currentPlayer + " goes");
+    private void takePos() {
         Scanner in = new Scanner(System.in);
         String str;
-        int pos;
         while (true) {
-            str = in.nextLine(); // split strings by delimiter
+            str = in.nextLine();
             try {
                 pos = Integer.valueOf(str);
             } catch (NumberFormatException e) {
                 System.err.println("Wrong data!\nTry again");
                 continue;
             }
-
             if ((pos > 9) || (pos < 1)) {
                 System.err.println("Wrong position!\nType data again: ");
                 continue;
             }
             break;
         }
-        setMark(pos);
     }
+
+    public void p2p() {
+        showMap();
+        System.out.println("Player " + currentPlayer + " goes");
+        takePos();
+        setUserMark();
+        if (count < 8) {
+            count++;
+        } else {
+            showMap();
+            System.out.println("Draw");
+            return;
+        }
+        if (count > 4) {
+            if (checkIfWon()) {
+                showMap();
+                System.out.println("Player " + currentPlayer + " won!!!");
+            } else {
+                swapCurrentPlayer();
+                p2p();
+            }
+        } else {
+            swapCurrentPlayer();
+            p2p();
+        }
+    }
+
+    public void playWithComp() {
+        showMap();
+        while (!checkIfWon()) {
+            System.out.println("Player goes");
+            playerGo();
+            showMap();
+            if (checkIfWon()) {
+                System.out.println(currentPlayer);
+                System.out.println("Player won!!!");
+                break;
+            }
+            swapCurrentPlayer();
+            if (count == 4) break;
+            System.out.println("Computer goes");
+            compGo();
+            showMap();
+            if (checkIfWon()) {
+                System.out.println(currentPlayer);
+                System.out.println("Computer won");
+                break;
+            }
+            swapCurrentPlayer();
+            count++;
+        }
+    }
+
+    private void playerGo() {
+        takePos();
+        setUserMark();
+    }
+
+    private void compGo(){
+        Random random = new Random();
+        int i = random.nextInt(3);
+        int j = random.nextInt(3);
+        if (map[i][j] != '_'){
+            while (map[i][j] != '_') {
+                i = random.nextInt(3);
+                j = random.nextInt(3);
+            }
+        }
+        map[i][j] = currentPlayer;
+    }
+
 }
+/*
+X X _   X X _   X _ _   X _ _   _ _ _   _ _ _   _ _ _   _ _ _
+O O X   O _ X   O _ X   O _ X   O _ X   _ _ X   _ _ X   _ _ X
+O X O   O X O   O X O   O X _   O X _   O X _   O _ _   _ _ _
+
+*/
