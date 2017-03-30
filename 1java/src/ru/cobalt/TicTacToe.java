@@ -146,8 +146,10 @@ class TicTacToe {
 
     public void playWithComp() {
         showMap();
+        swapCurrentPlayer();
         while (!checkIfWon()) {
             System.out.println("Player goes");
+            swapCurrentPlayer();
             playerGo();
             showMap();
             if (checkIfWon()) {
@@ -155,9 +157,9 @@ class TicTacToe {
                 System.out.println("Player won!!!");
                 break;
             }
-            swapCurrentPlayer();
             if (count == 4) break;
             System.out.println("Computer goes");
+            swapCurrentPlayer();
             compGo();
             showMap();
             if (checkIfWon()) {
@@ -165,7 +167,6 @@ class TicTacToe {
                 System.out.println("Computer won");
                 break;
             }
-            swapCurrentPlayer();
             count++;
         }
     }
